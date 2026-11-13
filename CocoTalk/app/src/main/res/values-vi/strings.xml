@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">CocoTalk</string>
+    <string name="nav_conversations">Tin nhắn</string>
+    <string name="nav_contacts">Danh bạ</string>
+    <string name="nav_profile">Cá nhân</string>
+    <string name="placeholder_conversations">Danh sách cuộc trò chuyện</string>
+    <string name="placeholder_contacts">Danh bạ &amp; Bạn bè</string>
+    <string name="placeholder_profile">Cá nhân &amp; Cài đặt</string>
+</resources>

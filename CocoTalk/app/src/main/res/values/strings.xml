@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">CocoTalk</string>
+    <string name="nav_conversations">Messages</string>
+    <string name="nav_contacts">Contacts</string>
+    <string name="nav_profile">Profile</string>
+    <string name="placeholder_conversations">Conversations List</string>
+    <string name="placeholder_contacts">Contacts &amp; Friends</string>
+    <string name="placeholder_profile">Profile &amp; Settings</string>
 </resources>

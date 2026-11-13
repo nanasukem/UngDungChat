@@ -2,4 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="coco_primary">#0068FF</color>
+    <color name="coco_primary_dark">#0052CC</color>
+    <color name="coco_accent">#00B2FF</color>
+    <color name="coco_bg">#F4F6F8</color>
+    <color name="text_primary">#1A1A1A</color>
+    <color name="text_secondary">#757575</color>
 </resources>
