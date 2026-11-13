@@ -1,3 +1,4 @@
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.services)
@@ -5,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.cocotalk.application"
-    compileSdk = 25
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.cocotalk.application"
@@ -14,7 +15,8 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner =
+            "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildFeatures {
@@ -38,27 +40,32 @@ android {
 }
 
 dependencies {
+
+    // AndroidX
     implementation(libs.androidx.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.constraintlayout)
+
+    // Lifecycle - MVVM
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.lifecycle.livedata)
 
-    // Firebase BoM & các dịch vụ
+    // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.storage)
     implementation(libs.firebase.messaging)
 
-    // Thư viện giao diện & Media
+    // Image & Media
     implementation(libs.glide)
     implementation(libs.circleimageview)
     implementation(libs.media3.exoplayer)
     implementation(libs.media3.ui)
 
+    // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
