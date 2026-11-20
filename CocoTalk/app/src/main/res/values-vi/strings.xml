@@ -6,4 +6,26 @@
     <string name="placeholder_conversations">Danh sách cuộc trò chuyện</string>
     <string name="placeholder_contacts">Danh bạ &amp; Bạn bè</string>
     <string name="placeholder_profile">Cá nhân &amp; Cài đặt</string>
+    <string name="title_conversations">Tin nhắn</string>
+    <string name="title_contacts">Danh bạ</string>
+    <string name="title_profile">Cá nhân</string>
+    <string name="action_account">Tài khoản</string>
+    <string name="action_search">Tìm kiếm</string>
+    <string name="action_new_group">Tạo nhóm</string>
+    <string name="action_add_friend">Thêm bạn</string>
+    <string name="search_hint_conversations">Tìm kiếm bạn bè, tin nhắn</string>
+    <string name="search_hint_contacts">Tìm bạn bè</string>
+    <string name="add_friend_by_phone">Thêm bạn bằng số điện thoại</string>
+    <string name="add_friend_by_phone_desc">Nhập SĐT để tìm và kết bạn</string>
+    <string name="section_friend_requests">Lời mời kết bạn</string>
+    <string name="section_friends">Bạn bè</string>
+    <string name="btn_accept">Đồng ý</string>
+    <string name="btn_decline">Từ chối</string>
+    <string name="action_chat">Nhắn tin</string>
+    <string name="action_call">Gọi</string>
+    <string name="empty_conversations">Chưa có cuộc trò chuyện nào.\nBấm + để bắt đầu nhắn tin!</string>
+    <string name="empty_contacts">Chưa có bạn bè.\nThêm bạn bằng số điện thoại nhé!</string>
+    <string name="empty_profile">Cá nhân &amp; Cài đặt</string>
+    <string name="cd_avatar">Ảnh đại diện</string>
+    <string name="status_online">Đang hoạt động</string>
 </resources>

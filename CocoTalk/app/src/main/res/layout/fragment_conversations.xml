@@ -1,12 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- Màn hình 1 – Danh sách chat (theo mockup Figma "01 – Danh sách chat") -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorSurface"
+        app:menu="@menu/menu_conversations"
+        app:navigationContentDescription="@string/action_account"
+        app:navigationIcon="@drawable/ic_person"
+        app:title="@string/title_conversations"
+        app:titleTextAppearance="?attr/textAppearanceTitleLarge" />
+
+    <!-- Thanh tìm kiếm (bấm vào để mở màn hình tìm kiếm) -->
     <TextView
-        android:id="@+id/tvPlaceholder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/placeholder_conversations"
-        android:textSize="18sp" />
-</FrameLayout>
+        android:id="@+id/searchBar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/bg_search_bar"
+        android:clickable="true"
+        android:drawablePadding="16dp"
+        app:drawableTint="?attr/colorOnSurfaceVariant"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="16dp"
+        android:text="@string/search_hint_conversations"
+        android:textAppearance="?attr/textAppearanceBodyLarge"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        app:drawableStartCompat="@drawable/ic_search" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvConversations"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="8dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="5"
+            tools:listitem="@layout/item_conversation" />
+
+        <!-- Hiện khi chưa có cuộc trò chuyện; ẩn đi khi danh sách có dữ liệu -->
+        <TextView
+            android:id="@+id/tvPlaceholder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawablePadding="12dp"
+            app:drawableTint="?attr/colorOutline"
+            android:gravity="center"
+            android:padding="24dp"
+            android:text="@string/empty_conversations"
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            app:drawableTopCompat="@drawable/ic_chat"
+            tools:visibility="gone" />
+    </FrameLayout>
+
+</LinearLayout>

@@ -6,4 +6,26 @@
     <string name="placeholder_conversations">Conversations List</string>
     <string name="placeholder_contacts">Contacts &amp; Friends</string>
     <string name="placeholder_profile">Profile &amp; Settings</string>
+    <string name="title_conversations">Messages</string>
+    <string name="title_contacts">Contacts</string>
+    <string name="title_profile">Profile</string>
+    <string name="action_account">Account</string>
+    <string name="action_search">Search</string>
+    <string name="action_new_group">New group</string>
+    <string name="action_add_friend">Add friend</string>
+    <string name="search_hint_conversations">Search friends, messages</string>
+    <string name="search_hint_contacts">Search friends</string>
+    <string name="add_friend_by_phone">Add friend by phone number</string>
+    <string name="add_friend_by_phone_desc">Enter a phone number to find and add friends</string>
+    <string name="section_friend_requests">Friend requests</string>
+    <string name="section_friends">Friends</string>
+    <string name="btn_accept">Accept</string>
+    <string name="btn_decline">Decline</string>
+    <string name="action_chat">Message</string>
+    <string name="action_call">Call</string>
+    <string name="empty_conversations">No conversations yet.\nTap + to start chatting!</string>
+    <string name="empty_contacts">No friends yet.\nAdd friends by phone number!</string>
+    <string name="empty_profile">Profile &amp; Settings</string>
+    <string name="cd_avatar">Avatar</string>
+    <string name="status_online">Online</string>
 </resources>
