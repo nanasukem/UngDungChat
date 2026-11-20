@@ -1,1 +1,5 @@
 CocoTalk/app/google-services.json
+
+# Cấu hình Android Studio khi lỡ mở thư mục gốc UngDungChat (không cần đưa lên Git)
+/.idea/
+*.iml
