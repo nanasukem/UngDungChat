@@ -25,14 +25,42 @@
         android:theme="@style/Theme.CocoTalk"
         tools:targetApi="31">
 
+        <!-- Màn hình Splash kiểm tra trạng thái đăng nhập -->
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name=".ui.splash.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Luồng đăng nhập OTP và tạo hồ sơ -->
+        <activity
+            android:name=".ui.auth.LoginActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.auth.OtpActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.auth.CreateProfileActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Màn hình thêm bạn bằng SĐT  -->
+        <activity
+            android:name=".ui.contacts.AddFriendActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Màn hình chính 3 tab -->
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

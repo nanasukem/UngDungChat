@@ -28,4 +28,59 @@
     <string name="empty_profile">Profile &amp; Settings</string>
     <string name="cd_avatar">Avatar</string>
     <string name="status_online">Online</string>
+
+    <string name="splash_tagline">Fast, stable &amp; private messaging</string>
+    <string name="lang_current_label">English</string>
+    <string name="welcome_btn_login">Log in</string>
+    <string name="welcome_btn_register">Create new account</string>
+
+    <string name="login_toolbar_title">Log in</string>
+    <string name="register_toolbar_title">Create new account</string>
+    <string name="login_banner_text">Please enter your phone number to log in to CocoTalk</string>
+    <string name="register_banner_text">Enter your phone number to create a new CocoTalk account</string>
+    <string name="login_title">Enter phone number</string>
+    <string name="login_subtitle">We will send a 6-digit verification code via SMS to verify your account</string>
+    <string name="login_country_code">VN +84</string>
+    <string name="login_hint_phone">Phone number</string>
+    <string name="login_btn_send_otp">Continue</string>
+    <string name="login_terms_note">By continuing, you agree to CocoTalk\'s Terms of Service</string>
+    <string name="login_note_prefix">Phone numbers are normalized to +84 format automatically</string>
+    <string name="error_invalid_phone">Invalid phone number. Please check again.</string>
+
+    <string name="otp_title">Enter verification code</string>
+    <string name="otp_subtitle_format">Please enter the 6-digit OTP code sent to phone number %1$s</string>
+    <string name="otp_hint_code">• • • • • •</string>
+    <string name="otp_btn_verify">Continue</string>
+    <string name="otp_btn_resend">Resend code</string>
+    <string name="otp_btn_change_phone">Change phone number</string>
+    <string name="error_invalid_otp">Please enter all 6 digits of the OTP code</string>
+    <string name="msg_otp_sent">Verification code has been sent</string>
+
+    <string name="create_profile_title">Your CocoTalk profile</string>
+    <string name="create_profile_subtitle">Use your real name so friends can easily find and recognize you</string>
+    <string name="create_profile_avatar_hint">Avatar initial is generated from your name</string>
+    <string name="create_profile_hint_name">Enter your full name</string>
+    <string name="create_profile_label_phone">Verified phone number</string>
+    <string name="create_profile_btn_save">Complete &amp; Start</string>
+    <string name="error_empty_name">Please enter your display name</string>
+    <string name="msg_profile_saved">Profile created successfully</string>
+
+    <string name="add_friend_title">Add friend</string>
+    <string name="add_friend_section_phone">Add friend by phone number</string>
+    <string name="add_friend_hint_phone">Enter phone number</string>
+    <string name="add_friend_btn_search">Search</string>
+    <string name="add_friend_btn_send_request">Add friend</string>
+    <string name="add_friend_btn_cancel_request">Cancel request</string>
+    <string name="add_friend_status_sent">Request sent</string>
+    <string name="add_friend_status_received">Sent you a request</string>
+    <string name="add_friend_status_already">Friends</string>
+    <string name="add_friend_status_self">Your account</string>
+    <string name="add_friend_status_blocked">Blocked</string>
+    <string name="add_friend_not_found">This phone number has not registered a CocoTalk account yet.</string>
+    <string name="msg_friend_request_sent">Friend request sent!</string>
+    <string name="msg_friend_request_canceled">Friend request canceled</string>
+    <string name="msg_friend_request_accepted">Friend request accepted</string>
+    <string name="msg_friend_request_declined">Friend request declined</string>
+    <string name="profile_btn_logout">Log out</string>
+    <string name="cd_back">Back</string>
 </resources>

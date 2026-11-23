@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="360dp"
+    android:height="140dp"
+    android:viewportWidth="360"
+    android:viewportHeight="140">
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M30,45 Q38,34 50,40 Q58,32 68,42 Q76,42 76,50 L24,50 Q24,45 30,45 Z"
+        android:strokeColor="#E2D9F3"
+        android:strokeWidth="1.2" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M280,28 Q288,18 298,24 Q306,18 316,26 L274,26 Z"
+        android:strokeColor="#E2D9F3"
+        android:strokeWidth="1.2" />
+
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M0,136 L360,136"
+        android:strokeColor="#DED4F0"
+        android:strokeWidth="1.5" />
+
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M18,136 L18,92 L66,92 L66,136 M12,92 L72,92 L42,72 Z M26,92 L26,74 L58,74 L58,92 M20,74 L64,74 L42,56 Z M34,136 L34,110 A8,8 0 0,1 50,110 L50,136"
+        android:strokeColor="#E2D9F3"
+        android:strokeWidth="1.3" />
+
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M235,136 L235,100 L265,100 L265,136 M265,136 L265,82 L300,82 L300,136 M300,136 L300,52 L338,35 L338,136"
+        android:strokeColor="#E2D9F3"
+        android:strokeWidth="1.3" />
+    <!-- Cửa sổ tòa nhà -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M273,92 L292,92 M273,104 L292,104 M273,116 L292,116 M310,66 L328,66 M310,80 L328,80 M310,94 L328,94 M310,108 L328,108 M310,122 L328,122"
+        android:strokeColor="#EAE2F8"
+        android:strokeWidth="1.2" />
+</vector>

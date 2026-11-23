@@ -28,4 +28,59 @@
     <string name="empty_profile">Cá nhân &amp; Cài đặt</string>
     <string name="cd_avatar">Ảnh đại diện</string>
     <string name="status_online">Đang hoạt động</string>
+
+    <string name="splash_tagline">Nhắn tin nhanh chóng, ổn định &amp; bảo mật</string>
+    <string name="lang_current_label">Tiếng Việt</string>
+    <string name="welcome_btn_login">Đăng nhập</string>
+    <string name="welcome_btn_register">Tạo tài khoản mới</string>
+
+    <string name="login_toolbar_title">Đăng nhập</string>
+    <string name="register_toolbar_title">Tạo tài khoản mới</string>
+    <string name="login_banner_text">Vui lòng nhập số điện thoại để đăng nhập CocoTalk</string>
+    <string name="register_banner_text">Nhập số điện thoại của bạn để tạo tài khoản CocoTalk mới</string>
+    <string name="login_title">Nhập số điện thoại</string>
+    <string name="login_subtitle">Mã xác thực gồm 6 chữ số sẽ được gửi qua tin nhắn SMS để xác minh tài khoản của bạn</string>
+    <string name="login_country_code">VN +84</string>
+    <string name="login_hint_phone">Số điện thoại</string>
+    <string name="login_btn_send_otp">Tiếp tục</string>
+    <string name="login_terms_note">Tiếp tục nghĩa là bạn đồng ý với Điều khoản sử dụng của CocoTalk</string>
+    <string name="login_note_prefix">Số điện thoại tự động chuẩn hóa về định dạng +84…</string>
+    <string name="error_invalid_phone">Số điện thoại không hợp lệ, vui lòng kiểm tra lại.</string>
+
+    <string name="otp_title">Nhập mã xác thực</string>
+    <string name="otp_subtitle_format">Vui lòng nhập mã OTP gồm 6 chữ số đã được gửi tới số điện thoại %1$s</string>
+    <string name="otp_hint_code">• • • • • •</string>
+    <string name="otp_btn_verify">Tiếp tục</string>
+    <string name="otp_btn_resend">Gửi lại mã</string>
+    <string name="otp_btn_change_phone">Đổi số điện thoại khác</string>
+    <string name="error_invalid_otp">Vui lòng nhập đủ 6 chữ số mã xác thực</string>
+    <string name="msg_otp_sent">Đã gửi lại mã xác thực</string>
+
+    <string name="create_profile_title">Thông tin cá nhân</string>
+    <string name="create_profile_subtitle">Hãy dùng tên thật để bạn bè dễ dàng tìm kiếm và nhận ra bạn trên CocoTalk</string>
+    <string name="create_profile_avatar_hint">Ảnh đại diện chữ cái tự động tạo theo tên của bạn</string>
+    <string name="create_profile_hint_name">Nhập tên hiển thị của bạn</string>
+    <string name="create_profile_label_phone">Số điện thoại đã xác thực</string>
+    <string name="create_profile_btn_save">Hoàn tất &amp; Bắt đầu</string>
+    <string name="error_empty_name">Vui lòng nhập tên hiển thị của bạn</string>
+    <string name="msg_profile_saved">Tạo hồ sơ thành công</string>
+
+    <string name="add_friend_title">Thêm bạn</string>
+    <string name="add_friend_section_phone">Thêm bạn bằng số điện thoại</string>
+    <string name="add_friend_hint_phone">Nhập số điện thoại</string>
+    <string name="add_friend_btn_search">Tìm</string>
+    <string name="add_friend_btn_send_request">Kết bạn</string>
+    <string name="add_friend_btn_cancel_request">Thu hồi lời mời</string>
+    <string name="add_friend_status_sent">Đã gửi lời mời</string>
+    <string name="add_friend_status_received">Đã gửi lời mời cho bạn</string>
+    <string name="add_friend_status_already">Bạn bè</string>
+    <string name="add_friend_status_self">Tài khoản của bạn</string>
+    <string name="add_friend_status_blocked">Đã chặn</string>
+    <string name="add_friend_not_found">Số điện thoại này chưa đăng ký tài khoản CocoTalk.</string>
+    <string name="msg_friend_request_sent">Đã gửi lời mời kết bạn!</string>
+    <string name="msg_friend_request_canceled">Đã thu hồi lời mời kết bạn</string>
+    <string name="msg_friend_request_accepted">Đã kết bạn thành công</string>
+    <string name="msg_friend_request_declined">Đã từ chối lời mời kết bạn</string>
+    <string name="profile_btn_logout">Đăng xuất</string>
+    <string name="cd_back">Quay lại</string>
 </resources>
