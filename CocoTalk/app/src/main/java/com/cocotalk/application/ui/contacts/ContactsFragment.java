@@ -15,6 +15,7 @@ import com.cocotalk.application.R;
 import com.cocotalk.application.data.repository.AuthRepo;
 import com.cocotalk.application.data.repository.FriendRepo;
 import com.cocotalk.application.databinding.FragmentContactsBinding;
+import com.cocotalk.application.ui.chat.ChatActivity;
 import com.google.firebase.firestore.ListenerRegistration;
 
 import java.util.List;
@@ -109,6 +110,12 @@ public class ContactsFragment extends Fragment {
         });
 
         friendAdapter = new FriendAdapter();
+        // Bấm vào một người bạn → mở Chat 1-1 với người đó (Người 2)
+        friendAdapter.setOnFriendClickListener((user, displayName) -> {
+            String myUid = authRepo.getCurrentUid();
+            if (myUid == null || getContext() == null || user.getUid() == null) return;
+            ChatActivity.startDirect(requireContext(), myUid, user.getUid(), displayName, user.getAvatarUrl());
+        });
 
         binding.rvFriendRequests.setAdapter(requestAdapter);
         binding.rvFriends.setAdapter(friendAdapter);

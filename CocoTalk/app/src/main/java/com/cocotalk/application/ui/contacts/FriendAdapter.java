@@ -23,6 +23,19 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
 
     private final List<FriendRepo.FriendItem> friends = new ArrayList<>();
 
+    /** Bấm vào một người bạn: mở Chat (Người 2). Nút gọi để Người 3 nối với Zego. */
+    public interface OnFriendClickListener {
+        void onChatClick(User user, String displayName);
+
+        default void onCallClick(User user, String displayName) { }
+    }
+
+    private OnFriendClickListener listener;
+
+    public void setOnFriendClickListener(OnFriendClickListener listener) {
+        this.listener = listener;
+    }
+
     private static final int[] AVATAR_BG_COLORS = {
             R.color.avatar_bg_1, R.color.avatar_bg_2, R.color.avatar_bg_3,
             R.color.avatar_bg_4, R.color.avatar_bg_5
@@ -51,7 +64,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(friends.get(position));
+        holder.bind(friends.get(position), listener);
     }
 
     @Override
@@ -67,7 +80,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
             this.binding = binding;
         }
 
-        void bind(FriendRepo.FriendItem item) {
+        void bind(FriendRepo.FriendItem item, OnFriendClickListener listener) {
             User user = item.getUser();
             String nickname = item.getRequest().getNickname();
             String displayName = (nickname != null && !nickname.trim().isEmpty())
@@ -77,6 +90,17 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
                     : PhoneUtils.formatDisplayPhone(user.getPhone()));
 
             binding.tvName.setText(displayName);
+
+            final String nameForClick = displayName;
+            binding.getRoot().setOnClickListener(v -> {
+                if (listener != null) listener.onChatClick(user, nameForClick);
+            });
+            binding.btnChat.setOnClickListener(v -> {
+                if (listener != null) listener.onChatClick(user, nameForClick);
+            });
+            binding.btnCall.setOnClickListener(v -> {
+                if (listener != null) listener.onCallClick(user, nameForClick);
+            });
 
             int colorIndex = Math.abs(displayName != null ? displayName.hashCode() : 0) % AVATAR_BG_COLORS.length;
             int bgColor = ContextCompat.getColor(itemView.getContext(), AVATAR_BG_COLORS[colorIndex]);

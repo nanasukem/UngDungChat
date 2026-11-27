@@ -57,6 +57,12 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
+        <!-- Màn hình Chat (Người 2) -->
+        <activity
+            android:name=".ui.chat.ChatActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
         <!-- Màn hình chính 3 tab -->
         <activity
             android:name=".ui.main.MainActivity"

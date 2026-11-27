@@ -83,4 +83,30 @@
     <string name="msg_friend_request_declined">Đã từ chối lời mời kết bạn</string>
     <string name="profile_btn_logout">Đăng xuất</string>
     <string name="cd_back">Quay lại</string>
+
+    <!-- Chat (Người 2 – tuần 2) -->
+    <string name="chat_input_hint">Nhập tin nhắn…</string>
+    <string name="chat_empty">Chưa có tin nhắn.\nGửi lời chào nhé!</string>
+    <string name="cd_send">Gửi</string>
+    <string name="cd_attach">Đính kèm tệp</string>
+    <string name="cd_send_image">Gửi ảnh</string>
+    <string name="cd_voice_call">Gọi thoại</string>
+    <string name="cd_video_call">Gọi video</string>
+    <string name="msg_coming_soon">Chức năng đang được phát triển</string>
+    <string name="msg_call_coming_soon">Gọi điện sẽ được tích hợp bằng ZegoCloud</string>
+    <string name="msg_send_failed">Gửi tin nhắn thất bại: %1$s</string>
+    <string name="msg_not_logged_in">Vui lòng đăng nhập lại</string>
+    <string name="preview_image">[Hình ảnh]</string>
+    <string name="preview_video">[Video]</string>
+    <string name="preview_file">[Tệp] %1$s</string>
+    <string name="preview_audio">[Tin nhắn thoại]</string>
+    <string name="preview_call_voice">[Cuộc gọi thoại]</string>
+    <string name="preview_call_video">[Cuộc gọi video]</string>
+    <string name="preview_location">[Vị trí]</string>
+    <string name="message_recalled">Tin nhắn đã được thu hồi</string>
+    <string name="message_seen">Đã xem</string>
+    <string name="prefix_you">Bạn: %1$s</string>
+    <string name="time_yesterday">Hôm qua</string>
+    <string name="status_last_seen">Hoạt động %1$s</string>
+    <string name="unknown_user">Người dùng CocoTalk</string>
 </resources>

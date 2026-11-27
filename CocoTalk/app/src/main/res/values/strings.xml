@@ -83,4 +83,30 @@
     <string name="msg_friend_request_declined">Friend request declined</string>
     <string name="profile_btn_logout">Log out</string>
     <string name="cd_back">Back</string>
+
+    <!-- Chat (Người 2 – tuần 2) -->
+    <string name="chat_input_hint">Type a message…</string>
+    <string name="chat_empty">No messages yet.\nSay hi!</string>
+    <string name="cd_send">Send</string>
+    <string name="cd_attach">Attach file</string>
+    <string name="cd_send_image">Send photo</string>
+    <string name="cd_voice_call">Voice call</string>
+    <string name="cd_video_call">Video call</string>
+    <string name="msg_coming_soon">This feature is under development</string>
+    <string name="msg_call_coming_soon">Calling will be added with ZegoCloud</string>
+    <string name="msg_send_failed">Could not send message: %1$s</string>
+    <string name="msg_not_logged_in">Please log in again</string>
+    <string name="preview_image">[Photo]</string>
+    <string name="preview_video">[Video]</string>
+    <string name="preview_file">[File] %1$s</string>
+    <string name="preview_audio">[Voice message]</string>
+    <string name="preview_call_voice">[Voice call]</string>
+    <string name="preview_call_video">[Video call]</string>
+    <string name="preview_location">[Location]</string>
+    <string name="message_recalled">Message recalled</string>
+    <string name="message_seen">Seen</string>
+    <string name="prefix_you">You: %1$s</string>
+    <string name="time_yesterday">Yesterday</string>
+    <string name="status_last_seen">Active %1$s</string>
+    <string name="unknown_user">CocoTalk user</string>
 </resources>
