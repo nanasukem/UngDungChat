@@ -17,6 +17,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.MetadataChanges;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.WriteBatch;
@@ -52,6 +53,17 @@ public class ChatRepo {
         void onSuccess();
         void onError(String message);
     }
+
+    public interface MetaListener {
+        /**
+         * @param deliveredAt uid → thời điểm (ms) máy của người đó đã nhận tin mới nhất
+         * @param typing      uid → thời điểm (ms) người đó báo "đang nhập" gần nhất
+         */
+        void onMeta(@NonNull Map<String, Long> deliveredAt, @NonNull Map<String, Long> typing);
+    }
+
+    /** Coi là "đang nhập" nếu lần báo gần nhất cách đây chưa quá 10 giây (phòng khi app bị tắt đột ngột). */
+    public static final long TYPING_TIMEOUT_MS = 10_000L;
 
     public interface UserListener {
         void onUser(@Nullable User user);
@@ -89,6 +101,7 @@ public class ChatRepo {
                     List<Conversation> list = new ArrayList<>();
                     if (snapshots != null) {
                         for (DocumentSnapshot doc : snapshots.getDocuments()) {
+                            markDelivered(doc, myUid);
                             Conversation c = parseConversation(doc);
                             // Ẩn cuộc trò chuyện chưa có tin nhắn nào
                             if (c.getLastMessage() != null && !c.getLastMessage().isEmpty()) {
@@ -108,7 +121,8 @@ public class ChatRepo {
         return conversationRef(conversationId)
                 .collection(Constants.KEY_SUBCOLLECTION_MESSAGES)
                 .orderBy("createdAt", Query.Direction.ASCENDING)
-                .addSnapshotListener((snapshots, error) -> {
+                // INCLUDE: báo cả lúc tin chuyển từ "đang gửi" sang "đã lưu lên server"
+                .addSnapshotListener(MetadataChanges.INCLUDE, (snapshots, error) -> {
                     if (error != null) {
                         callback.onError(error.getMessage());
                         return;
@@ -195,6 +209,95 @@ public class ChatRepo {
                 .addOnFailureListener(e -> { /* cuộc trò chuyện chưa tồn tại – bỏ qua */ });
     }
 
+    /**
+     * Đánh dấu "đã nhận": khi danh sách chat của mình nhận được tin mới do người khác gửi,
+     * ghi deliveredAt.{myUid} = giờ server vào cuộc trò chuyện. Người gửi so sánh với giờ gửi tin
+     * để hiện "Đã nhận". Chỉ ghi khi cần (deliveredAt cũ hơn tin mới nhất) để không lặp vô hạn.
+     */
+    private void markDelivered(@NonNull DocumentSnapshot doc, @NonNull String myUid) {
+        if (doc.getMetadata().hasPendingWrites()) return;
+        String lastSender = doc.getString("lastSenderId");
+        if (lastSender == null || lastSender.equals(myUid)) return;
+        long lastTime = toMillis(doc.get("lastMessageTime"));
+        long delivered = toMillis(doc.get("deliveredAt." + myUid));
+        if (lastTime > 0 && delivered < lastTime) {
+            doc.getReference()
+                    .update("deliveredAt." + myUid, FieldValue.serverTimestamp())
+                    .addOnFailureListener(e -> { /* bỏ qua, lần sau ghi lại */ });
+        }
+    }
+
+    /**
+     * Lắng nghe deliveredAt + typing của một cuộc trò chuyện –
+     * màn hình Chat dùng để hiện "Đã nhận" và bong bóng "đang nhập".
+     */
+    public ListenerRegistration listenMeta(@NonNull String conversationId,
+                                           @NonNull MetaListener listener) {
+        return conversationRef(conversationId).addSnapshotListener((doc, error) -> {
+            if (error == null && doc != null && doc.exists()) {
+                listener.onMeta(timeMap(doc, "deliveredAt"), timeMap(doc, "typing"));
+            } else {
+                listener.onMeta(new HashMap<>(), new HashMap<>());
+            }
+        });
+    }
+
+    /**
+     * Báo "đang nhập" (typing = true) hoặc đã ngừng (false) vào conversations/{id}.typing.{uid}.
+     * Dùng update nên nếu cuộc trò chuyện chưa có tin nào (chưa tồn tại) thì bỏ qua.
+     */
+    public void setTyping(@NonNull String conversationId, @NonNull String myUid, boolean typing) {
+        conversationRef(conversationId)
+                .update("typing." + myUid, typing ? FieldValue.serverTimestamp() : FieldValue.delete())
+                .addOnFailureListener(e -> { /* cuộc trò chuyện chưa tồn tại – bỏ qua */ });
+    }
+
+    /** true nếu có người khác (không phải mình) đang nhập. */
+    public static boolean someoneElseTyping(@Nullable Map<String, Long> typing, @Nullable String myUid) {
+        if (typing == null) return false;
+        long now = System.currentTimeMillis();
+        for (Map.Entry<String, Long> e : typing.entrySet()) {
+            if (e.getKey().equals(myUid) || e.getValue() == null) continue;
+            if (now - e.getValue() < TYPING_TIMEOUT_MS) return true;
+        }
+        return false;
+    }
+
+    /** Đọc một map uid → Timestamp trong document thành uid → mili-giây. */
+    private static Map<String, Long> timeMap(@NonNull DocumentSnapshot doc, @NonNull String field) {
+        Map<String, Long> out = new HashMap<>();
+        Object raw = doc.get(field, DocumentSnapshot.ServerTimestampBehavior.ESTIMATE);
+        if (raw instanceof Map) {
+            for (Map.Entry<?, ?> e : ((Map<?, ?>) raw).entrySet()) {
+                if (e.getKey() != null) out.put(e.getKey().toString(), toMillis(e.getValue()));
+            }
+        }
+        return out;
+    }
+
+    /**
+     * Đánh dấu "đã xem": thêm uid của mình vào seenBy của các tin người khác gửi mà mình chưa xem.
+     * Người gửi sẽ thấy "· Đã xem" dưới tin của họ (MessageAdapter kiểm tra seenBy.size() > 1).
+     */
+    public void markSeen(@NonNull String conversationId, @NonNull String myUid,
+                         @Nullable List<Message> messages) {
+        if (messages == null || messages.isEmpty()) return;
+        WriteBatch batch = db.batch();
+        int count = 0;
+        for (Message m : messages) {
+            if (m.getMessageId() == null || myUid.equals(m.getSenderId())) continue;
+            if (m.getSeenBy() != null && m.getSeenBy().contains(myUid)) continue;
+            batch.update(conversationRef(conversationId)
+                            .collection(Constants.KEY_SUBCOLLECTION_MESSAGES)
+                            .document(m.getMessageId()),
+                    "seenBy", FieldValue.arrayUnion(myUid));
+            if (++count >= 450) break; // batch tối đa 500 thao tác
+        }
+        if (count > 0) {
+            batch.commit().addOnFailureListener(e -> { /* lỗi mạng – lần mở sau sẽ đánh dấu lại */ });
+        }
+    }
+
     /** Lắng nghe realtime thông tin người kia (tên, avatar, online) cho thanh tiêu đề màn hình Chat. */
     public ListenerRegistration listenUser(@NonNull String uid, @NonNull UserListener listener) {
         return db.collection(Constants.KEY_COLLECTION_USERS)
@@ -279,6 +382,7 @@ public class ChatRepo {
             }
         }
         c.setUnreadCount(unread);
+        c.setTyping(timeMap(doc, "typing"));
         return c;
     }
 
@@ -298,6 +402,7 @@ public class ChatRepo {
         Boolean pinned = doc.getBoolean("isPinned");
         m.setPinned(pinned != null && pinned);
         m.setSeenBy(toStringList(doc.get("seenBy")));
+        m.setPending(doc.getMetadata().hasPendingWrites());
 
         List<Attachment> attachments = new ArrayList<>();
         Object rawAtt = doc.get("attachments");

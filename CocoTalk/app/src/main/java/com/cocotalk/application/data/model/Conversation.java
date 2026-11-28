@@ -17,6 +17,8 @@ public class Conversation {
     private long lastMessageTime;
     private Map<String, Integer> unreadCount;
     private List<String> pinnedBy;
+    // uid → thời điểm (ms) người đó báo "đang nhập" gần nhất (chỉ đọc, do ChatRepo điền)
+    private Map<String, Long> typing = new HashMap<>();
 
     public Conversation() {
         this.members = new ArrayList<>();
@@ -68,4 +70,7 @@ public class Conversation {
 
     public List<String> getPinnedBy() { return pinnedBy; }
     public void setPinnedBy(List<String> pinnedBy) { this.pinnedBy = pinnedBy; }
+
+    public Map<String, Long> getTyping() { return typing; }
+    public void setTyping(Map<String, Long> typing) { this.typing = typing; }
 }

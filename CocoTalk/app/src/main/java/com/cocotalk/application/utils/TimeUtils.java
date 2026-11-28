@@ -38,6 +38,26 @@ public final class TimeUtils {
         return new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date(millis));
     }
 
+    /**
+     * Giờ ở giữa màn hình Chat (kiểu Messenger): hôm nay "16:21", hôm qua "Hôm qua 16:21",
+     * trong tuần "T7 16:21", xa hơn "28/11/2026 16:21".
+     */
+    public static String formatHeaderTime(Context context, long millis) {
+        if (millis <= 0) return "";
+        Calendar now = Calendar.getInstance();
+        Calendar t = Calendar.getInstance();
+        t.setTimeInMillis(millis);
+        String hm = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date(millis));
+        if (isSameDay(now, t)) return hm;
+        Calendar yesterday = (Calendar) now.clone();
+        yesterday.add(Calendar.DAY_OF_YEAR, -1);
+        if (isSameDay(yesterday, t)) return context.getString(R.string.time_yesterday) + " " + hm;
+        if (now.getTimeInMillis() - millis < 7L * 24 * 60 * 60 * 1000) {
+            return new SimpleDateFormat("EEE", Locale.getDefault()).format(new Date(millis)) + " " + hm;
+        }
+        return new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date(millis)) + " " + hm;
+    }
+
     private static boolean isSameDay(Calendar a, Calendar b) {
         return a.get(Calendar.YEAR) == b.get(Calendar.YEAR)
                 && a.get(Calendar.DAY_OF_YEAR) == b.get(Calendar.DAY_OF_YEAR);

@@ -105,6 +105,12 @@
     <string name="preview_location">[Vị trí]</string>
     <string name="message_recalled">Tin nhắn đã được thu hồi</string>
     <string name="message_seen">Đã xem</string>
+    <string name="message_sending">Đang gửi…</string>
+    <string name="message_sent">Đã gửi</string>
+    <string name="message_delivered">Đã nhận</string>
+    <string name="message_copied">Đã sao chép</string>
+    <string name="typing_indicator">Đang nhập…</string>
+    <string name="cd_like">Gửi lượt thích</string>
     <string name="prefix_you">Bạn: %1$s</string>
     <string name="time_yesterday">Hôm qua</string>
     <string name="status_last_seen">Hoạt động %1$s</string>

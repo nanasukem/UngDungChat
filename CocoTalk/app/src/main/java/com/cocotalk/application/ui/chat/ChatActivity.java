@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -115,11 +118,44 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
         viewModel.getOtherUser().observe(this, this::showOtherUser);
+        viewModel.getDeliveredAt().observe(this, adapter::setDeliveredAt);
+        viewModel.getTypingAt().observe(this, typing -> updateTypingIndicator());
         viewModel.getError().observe(this, msg -> {
             if (msg != null) {
                 Toast.makeText(this, getString(R.string.msg_send_failed, msg), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (viewModel != null) viewModel.stopTyping();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (binding != null) binding.rvMessages.removeCallbacks(typingRecheck);
+        super.onDestroy();
+    }
+
+    // ===================== ĐANG NHẬP =====================
+    private final Runnable typingRecheck = this::updateTypingIndicator;
+
+    /** Hiện / ẩn bong bóng 3 chấm khi người kia đang nhập; tự kiểm tra lại để ẩn khi hết hạn. */
+    private void updateTypingIndicator() {
+        if (viewModel == null || adapter == null) return;
+        binding.rvMessages.removeCallbacks(typingRecheck);
+        boolean typing = ChatRepo.someoneElseTyping(viewModel.getTypingAt().getValue(), viewModel.getMyUid());
+        boolean wasAtBottom = adapter.getItemCount() == 0
+                || layoutManager.findLastVisibleItemPosition() >= adapter.getItemCount() - 2;
+        if (typing != adapter.isOtherTyping()) {
+            adapter.setOtherTyping(typing);
+            // vẽ lại tin cuối để chuyển avatar nhỏ giữa tin cuối và bong bóng đang nhập
+            if (adapter.getMessageCount() > 0) adapter.notifyItemChanged(adapter.getMessageCount() - 1);
+            if (typing && wasAtBottom) binding.rvMessages.scrollToPosition(adapter.getItemCount() - 1);
+        }
+        if (typing) binding.rvMessages.postDelayed(typingRecheck, 2_000L);
     }
 
     @Override
@@ -184,20 +220,59 @@ public class ChatActivity extends AppCompatActivity {
     // ===================== Ô NHẬP TIN =====================
     private void setupInputBar() {
         updateSendButton(false);
+
+        // Bấm Enter là gửi (cả bàn phím ảo lẫn bàn phím máy tính).
+        // Ô nhập vẫn tự xuống dòng khi tin dài (textMultiLine trong XML), nhưng bàn phím hiện nút "Gửi".
+        binding.edtMessage.setRawInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        binding.edtMessage.setImeOptions(EditorInfo.IME_ACTION_SEND);
+        binding.edtMessage.setOnEditorActionListener((v, actionId, event) -> {
+            boolean enterKey = event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER;
+            if (actionId == EditorInfo.IME_ACTION_SEND || enterKey) {
+                if (event == null || event.getAction() == KeyEvent.ACTION_DOWN) sendCurrentText();
+                return true;
+            }
+            return false;
+        });
+        binding.edtMessage.setOnKeyListener((v, keyCode, event) -> {
+            if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) sendCurrentText();
+                return true;
+            }
+            return false;
+        });
+
         binding.edtMessage.addTextChangedListener(new TextWatcher() {
+            private boolean enterTyped;
+
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-            @Override public void onTextChanged(CharSequence s, int start, int before, int count) { }
+
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Một số bàn phím gửi Enter dưới dạng ký tự xuống dòng thay vì phím Enter
+                enterTyped = count == 1 && before == 0 && start < s.length() && s.charAt(start) == '\n';
+            }
+
             @Override public void afterTextChanged(Editable s) {
-                updateSendButton(s.toString().trim().length() > 0);
+                if (enterTyped) {
+                    enterTyped = false;
+                    int idx = s.toString().lastIndexOf('\n');
+                    if (idx >= 0) s.delete(idx, idx + 1);
+                    binding.edtMessage.post(ChatActivity.this::sendCurrentText);
+                    return;
+                }
+                boolean hasText = s.toString().trim().length() > 0;
+                updateSendButton(hasText);
+                if (viewModel != null) {
+                    if (hasText) viewModel.onUserTyping(); else viewModel.stopTyping();
+                }
             }
         });
 
+        // Ô trống → nút 👍 (bấm là gửi like, giống Messenger); có chữ → nút gửi
         binding.btnSend.setOnClickListener(v -> {
             String text = binding.edtMessage.getText() != null
                     ? binding.edtMessage.getText().toString().trim() : "";
-            if (text.isEmpty()) return;
-            viewModel.sendText(text);
-            binding.edtMessage.setText("");
+            if (text.isEmpty()) viewModel.sendText("\uD83D\uDC4D");
+            else sendCurrentText();
         });
 
         // Đính kèm file / gửi ảnh – phần của Người 3 (Media)
@@ -207,9 +282,17 @@ public class ChatActivity extends AppCompatActivity {
                 Toast.makeText(this, R.string.msg_coming_soon, Toast.LENGTH_SHORT).show());
     }
 
-    private void updateSendButton(boolean enabled) {
-        binding.btnSend.setEnabled(enabled);
-        binding.btnSend.setAlpha(enabled ? 1f : 0.4f);
+    private void sendCurrentText() {
+        String text = binding.edtMessage.getText() != null
+                ? binding.edtMessage.getText().toString().trim() : "";
+        if (text.isEmpty()) return;
+        viewModel.sendText(text);
+        binding.edtMessage.setText("");
+    }
+
+    private void updateSendButton(boolean hasText) {
+        binding.btnSend.setImageResource(hasText ? R.drawable.ic_send : R.drawable.ic_thumb_up);
+        binding.btnSend.setContentDescription(getString(hasText ? R.string.cd_send : R.string.cd_like));
     }
 
     /** Người 3 gọi hàm này sau khi upload xong để gửi tin media. */

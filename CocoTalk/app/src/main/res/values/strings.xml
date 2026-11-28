@@ -105,6 +105,12 @@
     <string name="preview_location">[Location]</string>
     <string name="message_recalled">Message recalled</string>
     <string name="message_seen">Seen</string>
+    <string name="message_sending">Sending…</string>
+    <string name="message_sent">Sent</string>
+    <string name="message_delivered">Delivered</string>
+    <string name="message_copied">Copied</string>
+    <string name="typing_indicator">Typing…</string>
+    <string name="cd_like">Send a like</string>
     <string name="prefix_you">You: %1$s</string>
     <string name="time_yesterday">Yesterday</string>
     <string name="status_last_seen">Active %1$s</string>

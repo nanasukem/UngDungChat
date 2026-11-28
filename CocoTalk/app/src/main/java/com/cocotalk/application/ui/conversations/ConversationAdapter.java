@@ -110,6 +110,9 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
                 last = itemView.getContext().getString(R.string.prefix_you, last);
             }
             b.tvLastMessage.setText(last);
+            boolean typing = com.cocotalk.application.data.repository.ChatRepo
+                    .someoneElseTyping(c.getTyping(), myUid);
+            if (typing) b.tvLastMessage.setText(R.string.typing_indicator);
             b.tvTime.setText(TimeUtils.formatConversationTime(itemView.getContext(), c.getLastMessageTime()));
 
             // Số tin chưa đọc
@@ -121,7 +124,9 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
             b.tvName.setTypeface(null, hasUnread ? Typeface.BOLD : Typeface.NORMAL);
             b.tvLastMessage.setTypeface(null, hasUnread ? Typeface.BOLD : Typeface.NORMAL);
             b.tvLastMessage.setTextColor(ContextCompat.getColor(itemView.getContext(),
-                    hasUnread ? R.color.md_on_surface : R.color.md_on_surface_variant));
+                    typing ? R.color.md_primary
+                            : hasUnread ? R.color.md_on_surface : R.color.md_on_surface_variant));
+            if (typing) b.tvLastMessage.setTypeface(null, Typeface.ITALIC);
             b.tvTime.setTextColor(ContextCompat.getColor(itemView.getContext(),
                     hasUnread ? R.color.md_primary : R.color.md_on_surface_variant));
 

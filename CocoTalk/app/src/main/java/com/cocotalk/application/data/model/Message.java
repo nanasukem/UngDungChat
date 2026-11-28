@@ -14,6 +14,8 @@ public class Message {
     private boolean isRecalled;
     private boolean isPinned;
     private long createdAt;
+    // Chỉ dùng trên máy: true khi tin còn đang gửi lên server (chưa lưu lên Firestore)
+    private boolean pending;
 
     public Message() {
         this.attachments = new ArrayList<>();
@@ -62,4 +64,7 @@ public class Message {
 
     public long getCreatedAt() { return createdAt; }
     public void setCreatedAt(long createdAt) { this.createdAt = createdAt; }
+
+    public boolean isPending() { return pending; }
+    public void setPending(boolean pending) { this.pending = pending; }
 }
